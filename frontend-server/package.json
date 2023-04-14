@@ -1,0 +1,19 @@
+{
+  "name": "frontend-server",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node main.js",
+    "start:dapr": "dapr run --app-id frontend --app-port 81 -- npm run start",
+    "buildandstart": "npm run buildclient && npm run start",
+    "buildclient": "npm run --prefix ./client build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+  }
+}

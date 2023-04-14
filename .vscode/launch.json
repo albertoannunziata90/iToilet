@@ -1,0 +1,113 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "command": "npm run start:dapr",
+            "name": "Run Frontend Application",
+            "request": "launch",
+            "type": "node-terminal",
+            "cwd": "${workspaceRoot}/frontend-server",
+        },
+        {
+            "name": ".NET Core Launch Locator Api",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "buildLocationApi",
+            "program": "${workspaceFolder}/locator-api/LocatorApi/bin/Debug/net6.0/LocatorApi.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            }
+        },
+        {
+            "name": ".NET Core Launch Locator Api with Dapr",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "dapr-debug",
+            "program": "${workspaceFolder}/locator-api/LocatorApi/bin/Debug/net6.0/LocatorApi.dll",
+            "args": [
+                "--urls",
+                "http://localhost:7603"
+            ],
+            "cwd": "${workspaceFolder}",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)",
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            },
+            "postDebugTask": "daprd-down"
+        },
+        {
+            "name": ".NET Core Launch Review Api",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "buildReviewApi",
+            "program": "${workspaceFolder}/review-api/ReviewApi/bin/Debug/net6.0/Review.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            }
+        },
+        {
+            "name": ".NET Core Launch Review Api with Dapr",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "dapr-debug-review",
+            "program": "${workspaceFolder}/review-api/ReviewApi/bin/Debug/net6.0/ReviewApi.dll",
+            "args": [
+                "--urls",
+                "http://localhost:7602"
+            ],
+            "cwd": "${workspaceFolder}",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            },
+            "postDebugTask": "daprd-down-review"
+        }
+    ],
+    "compounds": [
+        {
+            "name": "iToilet",
+            "configurations": [
+                "Run Frontend Application",
+                ".NET Core Launch Locator Api with Dapr",
+                ".NET Core Launch Review Api with Dapr"
+            ]
+        }
+    ]
+}

@@ -1,0 +1,51 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "buildLocationApi",
+            "command": "dotnet",
+            "args": [
+                "build",
+                "${workspaceFolder}/locator-api/LocatorApi/LocatorApi.csproj"
+            ]
+        },
+        {
+            "appId": "Location",
+            "appPort": 7603,
+            "httpPort": 3500,
+            "grpcPort": 50001,
+            "label": "dapr-debug",
+            "type": "dapr",
+            "dependsOn": "buildLocationApi",
+            "componentsPath": "./components"
+        },
+        {
+            "appId": "Location",
+            "label": "daprd-down",
+            "type": "daprd-down"
+        },
+        {
+            "label": "buildReviewApi",
+            "command": "dotnet",
+            "args": [
+                "build",
+                "${workspaceFolder}/review-api/ReviewApi/ReviewApi.csproj"
+            ]
+        },
+        {
+            "appId": "Review",
+            "appPort": 7602,
+            "httpPort": 3501,
+            "grpcPort": 50002,
+            "label": "dapr-debug-review",
+            "type": "dapr",
+            "dependsOn": "buildReviewApi",
+            "componentsPath": "./components"
+        },
+        {
+            "appId": "Review",
+            "label": "daprd-down-review",
+            "type": "daprd-down"
+        }
+    ]
+}
