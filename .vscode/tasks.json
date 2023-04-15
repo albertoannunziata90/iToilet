@@ -46,6 +46,29 @@
             "appId": "Review",
             "label": "daprd-down-review",
             "type": "daprd-down"
+        },
+        {
+            "label": "buildNotificationHandler",
+            "command": "dotnet",
+            "args": [
+                "build",
+                "${workspaceFolder}/notification/NotificationHandler/NotificationHandler.csproj"
+            ]
+        },
+        {
+            "appId": "Notification",
+            "appPort": 7603,
+            "httpPort": 3503,
+            "grpcPort": 50004,
+            "label": "dapr-debug-notification",
+            "type": "dapr",
+            "dependsOn": "buildNotificationHandler",
+            "componentsPath": "./components"
+        },
+        {
+            "appId": "Notification",
+            "label": "daprd-down-notification",
+            "type": "daprd-down"
         }
     ]
 }

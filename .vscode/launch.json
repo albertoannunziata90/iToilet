@@ -98,6 +98,50 @@
                 "/Views": "${workspaceFolder}/Views"
             },
             "postDebugTask": "daprd-down-review"
+        },
+        {
+            "name": ".NET Core Launch Notification Handler",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "buildNotificationHandler",
+            "program": "${workspaceFolder}/notification/NotificationHandler/bin/Debug/net6.0/NotificationHandler.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            }
+        },
+        {
+            "name": ".NET Core Launch Notification Handler with Dapr",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "dapr-debug-notification",
+            "program": "${workspaceFolder}/notification/NotificationHandler/bin/Debug/net6.0/NotificationHandler.dll",
+            "args": [
+                "--urls",
+                "http://localhost:7603"
+            ],
+            "cwd": "${workspaceFolder}",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            },
+            "postDebugTask": "daprd-down-notification"
         }
     ],
     "compounds": [
@@ -106,7 +150,8 @@
             "configurations": [
                 "Run Frontend Application",
                 ".NET Core Launch Locator Api with Dapr",
-                ".NET Core Launch Review Api with Dapr"
+                ".NET Core Launch Review Api with Dapr",
+                ".NET Core Launch Notification Handler with Dapr"
             ]
         }
     ]
