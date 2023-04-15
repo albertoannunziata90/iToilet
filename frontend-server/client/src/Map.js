@@ -23,30 +23,31 @@ const DefaultMap = () => {
         zoom: 12,
       });
 
-      fetch(
-        `http://localhost:81/geolocator?city=Torino&lat=${latitude}&lng=${longitude}`
-      ).then((response) => {
-        response.json().then((data) => {
-          console.log(data);
-          data.forEach((toilet) => {
-            var marker = new atlas.HtmlMarker({
-              position: [
-                toilet.point.position.longitude,
-                toilet.point.position.latitude,
-              ],
-              color: "DodgerBlue",
-              text: toilet.name,
+      fetch(`/geolocator?city=Torino&lat=${latitude}&lng=${longitude}`).then(
+        (response) => {
+          response.json().then((data) => {
+            console.log(data);
+            data.forEach((toilet) => {
+              var marker = new atlas.HtmlMarker({
+                position: [
+                  toilet.point.position.longitude,
+                  toilet.point.position.latitude,
+                ],
+                color: "DodgerBlue",
+                text: toilet.name,
+              });
+              map.markers.add(marker);
             });
-            map.markers.add(marker);
           });
-        });
-      });
+        }
+      );
     });
   });
 
-  return <div><div ref={mapRef} style={{ height: "500px" }}></div>
-      
-  
-  </div>;
+  return (
+    <div>
+      <div ref={mapRef} style={{ height: "500px" }}></div>
+    </div>
+  );
 };
 export default DefaultMap;
