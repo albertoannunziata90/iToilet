@@ -11,7 +11,7 @@ namespace NotificationHandler.Controllers;
 [Route("[controller]")]
 public class NotificationController : ControllerBase
 {
-   
+
     private readonly ILogger<NotificationController> _logger;
     private readonly DaprClient daprClient;
 
@@ -28,17 +28,17 @@ public class NotificationController : ControllerBase
     {
         //Process order placeholder
 
-        var state = await daprClient.QueryStateAsync<User>("Users","");
+        var state = await daprClient.QueryStateAsync<Users>("Users", "");
 
         if (state == null)
         {
             return Ok();
         }
         var user = state.Results.FirstOrDefault();
-        
+
         if (user?.Data != null)
         {
-           await daprClient.InvokeBindingAsync(new BindingRequest("Twillio","SendMail"));
+            await daprClient.InvokeBindingAsync(new BindingRequest("Twillio", "SendMail"));
         }
 
         return Ok();
