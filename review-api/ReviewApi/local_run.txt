@@ -1,0 +1,1 @@
+﻿dapr run --app-id Review --app-port 7602 --resources-path ../../components -- dotnet run -p ReviewApi.csproj --urls http://localhost:7602

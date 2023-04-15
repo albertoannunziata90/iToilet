@@ -1,0 +1,1 @@
+﻿dapr run --app-id Location --app-port 7603 --resources-path ../../components -- dotnet run -p LocatorApi.csproj --urls http://localhost:7603
