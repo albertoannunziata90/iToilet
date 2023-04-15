@@ -28,5 +28,5 @@ jobs:
             username: ${{ secrets.REGISTRY_USERNAME }}
             password: ${{ secrets.REGISTRY_PASSWORD }}
         - run: |
-            docker build locator-api\LocatorApi -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/locator:${{ github.sha }}
+            docker build locator-api/LocatorApi -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/locator:${{ github.sha }}
             docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/locator:${{ github.sha }}
