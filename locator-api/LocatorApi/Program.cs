@@ -8,9 +8,10 @@ using Microsoft.Azure.Cosmos;
 var builder = WebApplication.CreateBuilder(args);
 builder.WebHost.ConfigureAppConfiguration(config =>
 {
+    var configurationList = new List<string>() { "locatorDatabaseId", "locatorCollectionId" };
     var daprClient = new DaprClientBuilder().Build();
     config.AddDaprSecretStore("commonsecrets", daprClient, TimeSpan.FromSeconds(10));
-    config.AddDaprSecretStore("locatorsecrets", daprClient);
+    config.AddDaprConfigurationStore("configstore", configurationList, daprClient, TimeSpan.FromSeconds(10));
 });
 // Add services to the container.
 

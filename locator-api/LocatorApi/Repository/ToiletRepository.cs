@@ -12,7 +12,7 @@ namespace LocatorApi.Repository
 
         public ToiletRepository(CosmosClient cosmosClient, IConfiguration configuration)
         {
-            container = cosmosClient.GetContainer(configuration["Cosmos:DatabaseId"], configuration["Cosmos:ContainerId"]);
+            container = cosmosClient.GetContainer(configuration["locatorDatabaseId"], configuration["locatorCollectionId"]);
         }
 
         public Task AddAsync(Toilet toilet, CancellationToken cancellationToken)

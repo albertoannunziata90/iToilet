@@ -10,10 +10,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.WebHost.ConfigureAppConfiguration(config =>
 {
+    var configurationList = new List<string>() { "reviewDatabaseId", "reviewCollectionId" };
     var daprClient = new DaprClientBuilder()
     .Build();
     config.AddDaprSecretStore("commonsecrets", daprClient);
-    config.AddDaprSecretStore("reviewsecrets", daprClient);
+    config.AddDaprConfigurationStore("configstore", configurationList, daprClient, TimeSpan.FromSeconds(10));
+
 });
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
