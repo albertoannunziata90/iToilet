@@ -1,5 +1,5 @@
 on: [push]
-name: Frontend Server Image
+name: Frontend Server Docker Image
 
 permissions:
   contents: read
