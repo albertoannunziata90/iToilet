@@ -10,14 +10,14 @@ namespace ReviewApi.Repository
 
         public ReviewRepository(CosmosClient cosmosClient, IConfiguration configuration)
         {
-            _container = cosmosClient.GetContainer(configuration["reviewDatabaseId"], configuration["reviewCollectionId"]);
+            _container = cosmosClient.GetContainer(configuration["reviewDatabaseID"], configuration["reviewCollectionId"]);
         }
 
 
         public async Task<Review> AddReviewAsync(Review review, CancellationToken cancellationToken)
         {
             review.Id = Guid.NewGuid();
-            await _container.CreateItemAsync(review, cancellationToken: cancellationToken);
+            // await _container.CreateItemAsync(review, cancellationToken: cancellationToken);
             return review;
         }
 

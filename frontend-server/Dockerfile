@@ -12,6 +12,6 @@ WORKDIR /node
 
 RUN npm install
 
-EXPOSE 81
+EXPOSE 80
 
 CMD node main.js

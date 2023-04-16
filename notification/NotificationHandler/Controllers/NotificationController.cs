@@ -21,26 +21,18 @@ public class NotificationController : ControllerBase
         this.daprClient = daprClient;
     }
 
-    [Topic("Notification", "review")]
+    [Topic("NotificationPubSub", "review")]
     [HttpPost]
     [Route("SendMailReview")]
     public async Task<IActionResult> SendMailReview([FromBody] Review review)
     {
-        //Process order placeholder
-
-        var state = await daprClient.QueryStateAsync<Users>("Users", "");
-
-        if (state == null)
-        {
-            return Ok();
-        }
-        var user = state.Results.FirstOrDefault();
-
-        if (user?.Data != null)
-        {
-            await daprClient.InvokeBindingAsync(new BindingRequest("Twillio", "SendMail"));
-        }
-
+        var dic = new Dictionary<string, string>() {
+                { "emailFrom", "alberto.annunziata@retelit.it" },
+                { "subject", "GAB 2023" },
+                { "emailTo", "albertowebdeveloper@gmail.com"}
+             };
+        // send mail
+        await daprClient.InvokeBindingAsync("MySmtp", "create", "Ciao GAB 2023", dic);
         return Ok();
     }
 }

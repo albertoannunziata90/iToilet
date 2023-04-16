@@ -7,7 +7,7 @@ import { fileURLToPath } from "url";
 const app = express();
 app.use(bodyParser.json());
 
-const port = 81;
+const port = 80;
 const daprHost = "127.0.0.1"; // Dapr Sidecar Host
 const client = new DaprClient(daprHost);
 

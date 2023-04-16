@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.WebHost.ConfigureAppConfiguration(config =>
 {
-    var configurationList = new List<string>() { "reviewDatabaseId", "reviewCollectionId" };
+    var configurationList = new List<string>() { "reviewDatabaseID", "reviewCollectionId" };
     var daprClient = new DaprClientBuilder()
     .Build();
     config.AddDaprSecretStore("commonsecrets", daprClient);
@@ -27,7 +27,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton(x =>
 {
     var configuration = x.GetRequiredService<IConfiguration>();
-    var connectionStr = configuration["Cosmos:ConnectionString"];
+    var connectionStr = configuration["Cosmos_ConnectionString"];
 
     return new CosmosClient(connectionStr);
 });

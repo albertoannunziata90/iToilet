@@ -10,7 +10,7 @@
 
         public int Star { get; set; }
 
-        public Guid ToiletId { get; set; }  
+        public Guid ToiletId { get; set; }
 
     }
 }

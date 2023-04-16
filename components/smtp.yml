@@ -1,0 +1,18 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: MySmtp
+spec:
+  type: bindings.smtp
+  version: v1
+  metadata:
+  - name: host
+    value: smtp-mail.outlook.com
+  - name: port
+    value: 587
+  - name: user
+    value: alberto.annunziata@retelit.it
+  - name: password
+    value: ********
+  - name: skipTLSVerify
+    value: false

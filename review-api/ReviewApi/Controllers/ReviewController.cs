@@ -48,9 +48,9 @@ public class ReviewController : ControllerBase
     public async Task<IActionResult> Create(Review itemToAdd)
     {
         var cancellationToken = httpContextAccessor.HttpContext?.RequestAborted ?? default;
-        var itemAdded = repository.AddReviewAsync(itemToAdd, cancellationToken);
+        var itemAdded = await repository.AddReviewAsync(itemToAdd, cancellationToken);
 
-        await daprClient.PublishEventAsync("Notification", "review", itemAdded, cancellationToken);
+        await daprClient.PublishEventAsync("NotificationPubSub", "review", itemAdded, cancellationToken);
 
         return Ok(itemAdded);
     }

@@ -24,7 +24,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton(x =>
 {
     var configuration = x.GetRequiredService<IConfiguration>();
-    var connectionStr = configuration["Cosmos:ConnectionString"];
+    var connectionStr = configuration["Cosmos_ConnectionString"];
     return new CosmosClient(connectionStr, new CosmosClientOptions
     {
         SerializerOptions = new CosmosSerializationOptions()

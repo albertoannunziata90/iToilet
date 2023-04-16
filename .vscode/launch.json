@@ -39,7 +39,7 @@
             "program": "${workspaceFolder}/locator-api/LocatorApi/bin/Debug/net6.0/LocatorApi.dll",
             "args": [
                 "--urls",
-                "http://localhost:7603"
+                "http://localhost:7600"
             ],
             "cwd": "${workspaceFolder}",
             "stopAtEntry": false,
@@ -83,7 +83,7 @@
             "program": "${workspaceFolder}/review-api/ReviewApi/bin/Debug/net6.0/ReviewApi.dll",
             "args": [
                 "--urls",
-                "http://localhost:7602"
+                "http://localhost:7601"
             ],
             "cwd": "${workspaceFolder}",
             "stopAtEntry": false,
@@ -127,7 +127,7 @@
             "program": "${workspaceFolder}/notification/NotificationHandler/bin/Debug/net6.0/NotificationHandler.dll",
             "args": [
                 "--urls",
-                "http://localhost:7603"
+                "http://localhost:7602"
             ],
             "cwd": "${workspaceFolder}",
             "stopAtEntry": false,
@@ -149,9 +149,9 @@
             "name": "iToilet",
             "configurations": [
                 "Run Frontend Application",
+                ".NET Core Launch Notification Handler with Dapr",
                 ".NET Core Launch Locator Api with Dapr",
                 ".NET Core Launch Review Api with Dapr",
-                ".NET Core Launch Notification Handler with Dapr"
             ]
         }
     ]
