@@ -1,5 +1,5 @@
 on: [push]
-name: Review Docker Image
+name: Notification Handler Docker Image
 
 permissions:
   contents: read
