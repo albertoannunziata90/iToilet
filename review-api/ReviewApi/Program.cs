@@ -13,7 +13,7 @@ builder.WebHost.ConfigureAppConfiguration(config =>
     var configurationList = new List<string>() { "reviewDatabaseID", "reviewCollectionId" };
     var daprClient = new DaprClientBuilder()
     .Build();
-    config.AddDaprSecretStore("commonsecrets", daprClient);
+    config.AddDaprSecretStore("commonsecrets", daprClient, TimeSpan.FromSeconds(10));
     config.AddDaprConfigurationStore("configstore", configurationList, daprClient, TimeSpan.FromSeconds(10));
 
 });
@@ -29,7 +29,14 @@ builder.Services.AddSingleton(x =>
     var configuration = x.GetRequiredService<IConfiguration>();
     var connectionStr = configuration["Cosmos_ConnectionString"];
 
-    return new CosmosClient(connectionStr);
+    return new CosmosClient(connectionStr, new CosmosClientOptions
+    {
+        SerializerOptions = new CosmosSerializationOptions()
+        {
+            PropertyNamingPolicy = CosmosPropertyNamingPolicy.CamelCase
+        }
+    });
+
 });
 builder.Services.AddSingleton<IReviewRepository, ReviewRepository>(); ;
 

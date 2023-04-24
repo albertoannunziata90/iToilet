@@ -16,8 +16,7 @@ namespace ReviewApi.Repository
 
         public async Task<Review> AddReviewAsync(Review review, CancellationToken cancellationToken)
         {
-            review.Id = Guid.NewGuid();
-            // await _container.CreateItemAsync(review, cancellationToken: cancellationToken);
+            await _container.CreateItemAsync(review, new PartitionKey(review.ToiletId.ToString()), cancellationToken: cancellationToken);
             return review;
         }
 
@@ -50,5 +49,6 @@ namespace ReviewApi.Repository
             }
 
         }
+
     }
 }

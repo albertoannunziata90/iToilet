@@ -13,6 +13,10 @@ spec:
   - name: user
     value: alberto.annunziata@retelit.it
   - name: password
-    value: ********
+    secretKeyRef:
+      name: Email_Password
+      key: Email_Password
   - name: skipTLSVerify
     value: false
+auth:
+  secretStore: commonsecrets

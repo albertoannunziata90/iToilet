@@ -5,8 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using ReviewApi.Entities;
 using ReviewApi.Repository;
 
-using System.Net;
-
+using Dapr;
 namespace ReviewApi.Controllers;
 
 [ApiController]
@@ -26,6 +25,36 @@ public class ReviewController : ControllerBase
         this.daprClient = daprClient;
     }
 
+    [HttpPost]
+    [Route("CreateTemporary")]
+    public async Task<IActionResult> CreateTemporary(Review itemToAdd)
+    {
+        var cancellationToken = httpContextAccessor.HttpContext?.RequestAborted ?? default;
+        itemToAdd.Id = Guid.NewGuid();
+        try
+        {
+            await daprClient.SaveStateAsync("state-review", itemToAdd.Id.ToString(), itemToAdd, cancellationToken: cancellationToken);
+        }
+        catch (Exception e)
+        {
+
+        }
+        return Ok(itemToAdd.Id);
+    }
+
+
+    [HttpPost]
+    [Route("Create/{id}")]
+    public async Task<IActionResult> Create([FromState("state-review", "id")] StateEntry<Review> itemToAdd)
+    {
+        var cancellationToken = httpContextAccessor.HttpContext?.RequestAborted ?? default;
+        var itemAdded = await repository.AddReviewAsync(itemToAdd, cancellationToken);
+        await daprClient.DeleteStateAsync("state-review", itemAdded.Id.ToString());
+        await daprClient.PublishEventAsync("NotificationPubSub", "review", itemAdded, cancellationToken);
+
+        return Ok(itemAdded);
+    }
+
     [HttpGet]
     [Route("GetAllByToilet/{id}")]
     public async Task<IActionResult> GetAllByToilet(string id)
@@ -40,19 +69,6 @@ public class ReviewController : ControllerBase
 
         _logger.LogInformation("Get called with {id}", id);
         return Ok(res);
-    }
-
-
-    [HttpPost]
-    [Route("Create")]
-    public async Task<IActionResult> Create(Review itemToAdd)
-    {
-        var cancellationToken = httpContextAccessor.HttpContext?.RequestAborted ?? default;
-        var itemAdded = await repository.AddReviewAsync(itemToAdd, cancellationToken);
-
-        await daprClient.PublishEventAsync("NotificationPubSub", "review", itemAdded, cancellationToken);
-
-        return Ok(itemAdded);
     }
 
 

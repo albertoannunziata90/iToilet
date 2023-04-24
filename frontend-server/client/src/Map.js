@@ -1,12 +1,15 @@
-import React, { useRef, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { AuthenticationType } from "azure-maps-control";
 import * as atlas from "azure-maps-control";
 
 const DefaultMap = () => {
-  const mapRef = useRef(null);
+  let map = undefined;
+  useState(map);
 
-  useEffect(() => {
-    const map = new atlas.Map(mapRef.current, {
+  const setMap = () => {
+    if (map) return;
+
+    map = new atlas.Map("my-map", {
       zoom: 12,
       authOptions: {
         authType: AuthenticationType.subscriptionKey,
@@ -23,30 +26,32 @@ const DefaultMap = () => {
         zoom: 12,
       });
 
-      fetch(`/geolocator?city=Torino&lat=${latitude}&lng=${longitude}`).then(
-        (response) => {
-          response.json().then((data) => {
-            console.log(data);
-            data.forEach((toilet) => {
-              var marker = new atlas.HtmlMarker({
-                position: [
-                  toilet.point.position.longitude,
-                  toilet.point.position.latitude,
-                ],
-                color: "DodgerBlue",
-                text: toilet.name,
-              });
-              map.markers.add(marker);
+      fetch(
+        `/api/geolocator?city=Torino&lat=${latitude}&lng=${longitude}`
+      ).then((response) => {
+        response.json().then((data) => {
+          data.forEach((toilet) => {
+            var marker = new atlas.HtmlMarker({
+              htmlContent: "<div><img scr='/iToilet.png'></div>",
+              position: [
+                toilet.point.position.longitude,
+                toilet.point.position.latitude,
+              ],
+              text: toilet.name,
+              pixelOffset: [6, -15],
             });
+            map.markers.add(marker);
           });
-        }
-      );
+        });
+      });
     });
-  });
+  };
+
+  useEffect(setMap, [map]);
 
   return (
     <div>
-      <div ref={mapRef} style={{ height: "500px" }}></div>
+      <div id="my-map" style={{ height: "500px" }}></div>
     </div>
   );
 };

@@ -33,6 +33,6 @@ public class NotificationController : ControllerBase
              };
         // send mail
         await daprClient.InvokeBindingAsync("MySmtp", "create", "Ciao GAB 2023", dic);
-        return Ok();
+        return Ok("Received!");
     }
 }
