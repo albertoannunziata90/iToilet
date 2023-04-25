@@ -32,7 +32,7 @@ public class NotificationController : ControllerBase
                 { "emailTo", "albertowebdeveloper@gmail.com"}
              };
         // send mail
-        await daprClient.InvokeBindingAsync("MySmtp", "create", review.Text
+        await daprClient.InvokeBindingAsync("mysmpt", "create", review.Text
         , dic);
         return Ok("Received!");
     }

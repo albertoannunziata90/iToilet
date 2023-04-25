@@ -27,7 +27,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton(x =>
 {
     var configuration = x.GetRequiredService<IConfiguration>();
-    var connectionStr = configuration["Cosmos_ConnectionString"];
+    var connectionStr = configuration["Cosmos-ConnectionString"];
 
     return new CosmosClient(connectionStr, new CosmosClientOptions
     {
