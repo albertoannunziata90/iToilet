@@ -30,3 +30,12 @@ jobs:
         - run: |
             docker build review-api/ReviewApi -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/review:${{ github.sha }}
             docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/review:${{ github.sha }}
+        
+        - name: Deploy Container App
+          uses: azure/container-apps-deploy-action@v0
+          with:
+            acrName: ${{ secrets.REGISTRY_NAME }}
+            containerAppName: ${{ secrets.REVIEW_CONTAINERAPPSNAME }}
+            resourceGroup: ${{ secrets.RESOURCE_GROUP }}
+            imageToDeploy: ${{ secrets.REGISTRY_LOGIN_SERVER }}/review:${{ github.sha }}
+          
