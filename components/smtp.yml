@@ -1,7 +1,7 @@
 apiVersion: dapr.io/v1alpha1
 kind: Component
 metadata:
-  name: MySmtp
+  name: mysmpt
 spec:
   type: bindings.smtp
   version: v1
@@ -14,8 +14,8 @@ spec:
     value: alberto.annunziata@retelit.it
   - name: password
     secretKeyRef:
-      name: Email_Password
-      key: Email_Password
+      name: Email-Password
+      key: Email-Password
   - name: skipTLSVerify
     value: false
 auth:
