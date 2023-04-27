@@ -31,14 +31,7 @@ public class ReviewController : ControllerBase
     {
         var cancellationToken = httpContextAccessor.HttpContext?.RequestAborted ?? default;
         itemToAdd.Id = Guid.NewGuid();
-        try
-        {
-            await daprClient.SaveStateAsync("state-review", itemToAdd.Id.ToString(), itemToAdd, cancellationToken: cancellationToken);
-        }
-        catch (Exception e)
-        {
-
-        }
+        await daprClient.SaveStateAsync("state-review", itemToAdd.Id.ToString(), itemToAdd, cancellationToken: cancellationToken);
         return Ok(itemToAdd.Id);
     }
 
@@ -50,7 +43,7 @@ public class ReviewController : ControllerBase
         var cancellationToken = httpContextAccessor.HttpContext?.RequestAborted ?? default;
         var itemAdded = await repository.AddReviewAsync(itemToAdd.Value, cancellationToken);
         await daprClient.DeleteStateAsync("state-review", itemAdded.Id.ToString(), cancellationToken: cancellationToken);
-        await daprClient.PublishEventAsync("NotificationPubSub", "review", itemAdded, cancellationToken);
+        await daprClient.PublishEventAsync("notificationpubsub", "review", itemAdded, cancellationToken);
 
         return Ok(itemAdded);
     }

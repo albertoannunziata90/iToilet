@@ -21,7 +21,7 @@ public class NotificationController : ControllerBase
         this.daprClient = daprClient;
     }
 
-    [Topic("NotificationPubSub", "review")]
+    [Topic("notificationpubsub", "review")]
     [HttpPost]
     [Route("SendMailReview")]
     public async Task<IActionResult> SendMailReview([FromBody] Review review)
