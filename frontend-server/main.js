@@ -54,11 +54,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 // Serve static files
 app.use(express.static(path.join(__dirname, "client/build")));
-app.get("/dapr/*", (req, res) => {
-  console.log(req.path);
-});
-// For all other requests, route to React client
-app.get("*", function (req, res) {
+
+app.get("/", function (req, res) {
   console.log(req);
   res.sendFile(path.join(__dirname, "client/build", "index.html"));
 });
