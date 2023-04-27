@@ -1,5 +1,5 @@
 on: [push]
-name: Frontend Server Docker Image
+name: Frontend 
 
 permissions:
   contents: read
@@ -28,5 +28,13 @@ jobs:
             username: ${{ secrets.REGISTRY_USERNAME }}
             password: ${{ secrets.REGISTRY_PASSWORD }}
         - run: |
-            docker build frontend-server -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/frontend-server:${{ github.sha }}
-            docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/frontend-server:${{ github.sha }}
+            docker build frontend-server -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/frontend:${{ github.sha }}
+            docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/frontend:${{ github.sha }}
+        
+        - name: Deploy Container App
+          uses: azure/container-apps-deploy-action@v0
+          with:
+            acrName: ${{ secrets.REGISTRY_NAME }}
+            containerAppName: ${{ secrets.FRONTEND_CONTAINERAPPSNAME }}
+            resourceGroup: ${{ secrets.RESOURCE_GROUP }}
+            imageToDeploy: ${{ secrets.REGISTRY_LOGIN_SERVER }}/frontend:${{ github.sha }}
