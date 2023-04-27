@@ -8,8 +8,7 @@ const app = express();
 app.use(bodyParser.json());
 
 const port = 80;
-const daprHost = "127.0.0.1"; // Dapr Sidecar Host
-const client = new DaprClient(daprHost);
+const client = new DaprClient();
 
 await client.start();
 
