@@ -28,5 +28,5 @@ jobs:
             username: ${{ secrets.REGISTRY_USERNAME }}
             password: ${{ secrets.REGISTRY_PASSWORD }}
         - run: |
-            docker build review-api/ReviewApi -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/notification:${{ github.sha }}
+            docker build notification/NotificationHandler -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/notification:${{ github.sha }}
             docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/notification:${{ github.sha }}
