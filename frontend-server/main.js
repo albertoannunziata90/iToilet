@@ -7,7 +7,7 @@ import { fileURLToPath } from "url";
 const app = express();
 app.use(bodyParser.json());
 
-const port = 80;
+const port = 8080;
 const client = new DaprClient();
 
 await client.start();
