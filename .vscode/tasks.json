@@ -10,7 +10,7 @@
             ]
         },
         {
-            "appId": "Location",
+            "appId": "locator",
             "appPort": 7600,
             "httpPort": 3500,
             "grpcPort": 50000,
@@ -20,7 +20,7 @@
             "componentsPath": "./components"
         },
         {
-            "appId": "Location",
+            "appId": "locator",
             "label": "daprd-down",
             "type": "daprd-down"
         },

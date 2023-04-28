@@ -35,7 +35,7 @@ app.post("/api/review", async (req, res) => {
 
 app.get("/api/geolocator", async (req, res) => {
   try {
-    const serviceApp = "location";
+    const serviceApp = "locator";
     const serviceAppMethod = `around/${req.query.city}/${req.query.lat}/${req.query.lng}`;
 
     const response = await client.invoker.invoke(
