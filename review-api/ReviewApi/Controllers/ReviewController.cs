@@ -44,7 +44,7 @@ public class ReviewController : ControllerBase
         var itemAdded = await repository.AddReviewAsync(itemToAdd.Value, cancellationToken);
         await daprClient.DeleteStateAsync("state-review", itemAdded.Id.ToString(), cancellationToken: cancellationToken);
         await daprClient.PublishEventAsync("notificationpubsub", "review", itemAdded, cancellationToken);
-
+        _logger.LogInformation("Create Review");
         return Ok(itemAdded);
     }
 

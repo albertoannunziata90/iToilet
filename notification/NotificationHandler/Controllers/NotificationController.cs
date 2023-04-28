@@ -26,6 +26,7 @@ public class NotificationController : ControllerBase
     [Route("SendMailReview")]
     public async Task<IActionResult> SendMailReview([FromBody] Review review)
     {
+        _logger.LogInformation("Send Mail");
         var dic = new Dictionary<string, string>() {
                 { "emailFrom", "alberto.annunziata@retelit.it" },
                 { "subject", "GAB 2023" },
