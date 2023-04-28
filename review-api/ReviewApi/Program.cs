@@ -4,17 +4,19 @@ using Dapr.Extensions.Configuration;
 using Microsoft.Azure.Cosmos;
 
 using ReviewApi.Repository;
+using ReviewApi.Utils;
 
+StartupHelper.WaitForDapr();
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.WebHost.ConfigureAppConfiguration(config =>
+builder.WebHost.ConfigureAppConfiguration((hostcontext, config) =>
 {
     var configurationList = new List<string>() { "reviewDatabaseID", "reviewCollectionId" };
     var daprClient = new DaprClientBuilder()
     .Build();
-    config.AddDaprSecretStore("commonsecrets", daprClient, TimeSpan.FromSeconds(10));
-    config.AddDaprConfigurationStore("configstore", configurationList, daprClient, TimeSpan.FromSeconds(10));
+    config.AddDaprSecretStore("commonsecrets", daprClient, TimeSpan.FromSeconds(30));
+    config.AddDaprConfigurationStore("configstore", configurationList, daprClient, TimeSpan.FromSeconds(30));
 
 });
 builder.Services.AddControllers();
@@ -56,3 +58,6 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+
+
