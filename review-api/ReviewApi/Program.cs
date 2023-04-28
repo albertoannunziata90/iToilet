@@ -15,7 +15,7 @@ builder.WebHost.ConfigureAppConfiguration((hostcontext, config) =>
     var configurationList = new List<string>() { "reviewDatabaseID", "reviewCollectionId" };
     var daprClient = new DaprClientBuilder()
     .Build();
-    config.AddDaprSecretStore("commonsecrets", daprClient, TimeSpan.FromSeconds(30));
+    // config.AddDaprSecretStore("commonsecrets", daprClient, TimeSpan.FromSeconds(30));
     config.AddDaprConfigurationStore("configstore", configurationList, daprClient, TimeSpan.FromSeconds(30));
 
 });
