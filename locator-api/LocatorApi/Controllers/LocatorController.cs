@@ -18,13 +18,11 @@ namespace LocatorApi.Controllers
         private readonly string ReviewAppId = "Review";
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ILogger<LocatorController> logger;
-        private readonly IConfiguration _configuration;
 
-        public LocatorController(DaprClient daprClient, IToiletRepository repository, IConfiguration configuration, IHttpContextAccessor httpContextAccessor, ILogger<LocatorController> logger)
+        public LocatorController(DaprClient daprClient, IToiletRepository repository, IHttpContextAccessor httpContextAccessor, ILogger<LocatorController> logger)
         {
             this.daprClient = daprClient;
             this.repository = repository;
-            _configuration = configuration;
             _httpContextAccessor = httpContextAccessor;
             this.logger = logger;
         }
@@ -64,7 +62,6 @@ namespace LocatorApi.Controllers
         [Route("create")]
         public async Task<IActionResult> CreateAsync([FromBody] ToiletModel toiletToAdd)
         {
-            logger.LogInformation("DatabaseID: " + _configuration["Cosmos:DatabaseId"] + "_" + _configuration["Cosmos:ContainerId"]);
             var toilet = new Toilet()
             {
                 Id = toiletToAdd.Id,
