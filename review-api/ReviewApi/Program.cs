@@ -1,24 +1,13 @@
 using Dapr.Client;
-using Dapr.Extensions.Configuration;
 
 using Microsoft.Azure.Cosmos;
-
+using ReviewApi.Configuration;
 using ReviewApi.Repository;
-using ReviewApi.Utils;
 
-StartupHelper.WaitForDapr();
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.WebHost.ConfigureAppConfiguration((hostcontext, config) =>
-{
-    var configurationList = new List<string>() { "reviewDatabaseID", "reviewCollectionId" };
-    var daprClient = new DaprClientBuilder()
-    .Build();
-    // config.AddDaprSecretStore("commonsecrets", daprClient, TimeSpan.FromSeconds(30));
-    config.AddDaprConfigurationStore("configstore", configurationList, daprClient, TimeSpan.FromSeconds(30));
 
-});
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -28,10 +17,10 @@ builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddSingleton(x =>
 {
-    var configuration = x.GetRequiredService<IConfiguration>();
-    var connectionStr = configuration["Cosmos-ConnectionString"];
+    var daprClient = x.GetRequiredService<DaprClient>();
+    var connectionStr = daprClient.GetSecretAsync("commonsecrets", "Cosmos-ConnectionString").GetAwaiter().GetResult();
 
-    return new CosmosClient(connectionStr, new CosmosClientOptions
+    return new CosmosClient(connectionStr.First().Value, new CosmosClientOptions
     {
         SerializerOptions = new CosmosSerializationOptions()
         {
@@ -40,7 +29,20 @@ builder.Services.AddSingleton(x =>
     });
 
 });
-builder.Services.AddSingleton<IReviewRepository, ReviewRepository>(); ;
+
+builder.Services.AddSingleton(x =>
+{
+    var configurationKeyList = new List<string>() { "reviewDatabaseID", "reviewCollectionId" };
+    var daprClient = x.GetRequiredService<DaprClient>();
+    var configurationList = daprClient.GetConfiguration("configstore", configurationKeyList).GetAwaiter().GetResult();
+    return new DatabaseOption()
+    {
+        CollectionName = configurationList.Items["reviewCollectionId"].Value,
+        DatabaseName = configurationList.Items["reviewDatabaseID"].Value,
+    };
+});
+
+builder.Services.AddSingleton<IReviewRepository, ReviewRepository>();
 
 var app = builder.Build();
 

@@ -1,5 +1,5 @@
 ﻿using Microsoft.Azure.Cosmos;
-
+using ReviewApi.Configuration;
 using ReviewApi.Entities;
 
 namespace ReviewApi.Repository
@@ -8,9 +8,9 @@ namespace ReviewApi.Repository
     {
         private readonly Container _container;
 
-        public ReviewRepository(CosmosClient cosmosClient, IConfiguration configuration)
+        public ReviewRepository(CosmosClient cosmosClient, DatabaseOption databaseOption)
         {
-            _container = cosmosClient.GetContainer(configuration["reviewDatabaseID"], configuration["reviewCollectionId"]);
+            _container = cosmosClient.GetContainer(databaseOption.DatabaseName, databaseOption.CollectionName);
         }
 
 
@@ -22,7 +22,6 @@ namespace ReviewApi.Repository
 
         public async Task<IEnumerable<Review>> GetReviewsAsync(string toiletId, CancellationToken cancellationToken)
         {
-
             try
             {
                 var feedIterator = _container.GetItemQueryIterator<Review>("SELECT * FROM t", requestOptions: new QueryRequestOptions()
