@@ -1,20 +1,10 @@
 using Dapr.Client;
-using Dapr.Extensions.Configuration;
-
+using LocatorApi.Configuration;
 using LocatorApi.Repository;
 
 using Microsoft.Azure.Cosmos;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.WebHost.ConfigureAppConfiguration(config =>
-{
-    var configurationList = new List<string>() { "locatorDatabaseId", "locatorCollectionId" };
-    var daprClient = new DaprClientBuilder().Build();
-    config.AddDaprSecretStore("commonsecrets", daprClient, TimeSpan.FromSeconds(10));
-    config.AddDaprConfigurationStore("configstore", configurationList, daprClient, TimeSpan.FromSeconds(10));
-});
-// Add services to the container.
-
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -23,15 +13,26 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton(x =>
 {
-    var configuration = x.GetRequiredService<IConfiguration>();
-    var connectionStr = configuration["Cosmos-ConnectionString"];
-    return new CosmosClient(connectionStr, new CosmosClientOptions
+    var daprClient = x.GetRequiredService<DaprClient>();
+    var connectionStr = daprClient.GetSecretAsync("commonsecrets", "Cosmos-ConnectionString").GetAwaiter().GetResult();
+    return new CosmosClient(connectionStr.First().Value, new CosmosClientOptions
     {
         SerializerOptions = new CosmosSerializationOptions()
         {
             PropertyNamingPolicy = CosmosPropertyNamingPolicy.CamelCase
         }
     });
+});
+builder.Services.AddSingleton(x =>
+{
+    var configurationKeyList = new List<string>() { "locatorDatabaseId", "locatorCollectionId" };
+    var daprClient = x.GetRequiredService<DaprClient>();
+    var configurationList = daprClient.GetConfiguration("configstore", configurationKeyList).GetAwaiter().GetResult();
+    return new DatabaseOption()
+    {
+        CollectionName = configurationList.Items["locatorCollectionId"].Value,
+        DatabaseName = configurationList.Items["locatorDatabaseId"].Value,
+    };
 });
 builder.Services.AddSingleton<IToiletRepository, ToiletRepository>();
 var app = builder.Build();

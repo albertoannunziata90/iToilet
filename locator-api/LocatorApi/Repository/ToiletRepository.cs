@@ -1,4 +1,5 @@
-﻿using LocatorApi.Entities;
+﻿using LocatorApi.Configuration;
+using LocatorApi.Entities;
 
 using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Cosmos.Spatial;
@@ -10,9 +11,9 @@ namespace LocatorApi.Repository
         private readonly Container container;
         private const int Distance = 1000;
 
-        public ToiletRepository(CosmosClient cosmosClient, IConfiguration configuration)
+        public ToiletRepository(CosmosClient cosmosClient, DatabaseOption option)
         {
-            container = cosmosClient.GetContainer(configuration["locatorDatabaseId"], configuration["locatorCollectionId"]);
+            container = cosmosClient.GetContainer(option.DatabaseName, option.CollectionName);
         }
 
         public Task AddAsync(Toilet toilet, CancellationToken cancellationToken)
