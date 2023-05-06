@@ -14,10 +14,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddSingleton(async x =>
+builder.Services.AddSingleton(x =>
 {
     var daprClient = x.GetRequiredService<DaprClient>();
-    var connectionStr = await daprClient.GetSecretAsync("commonsecrets", "Cosmos-ConnectionString");
+    var connectionStr = daprClient.GetSecretAsync("commonsecrets", "Cosmos-ConnectionString").GetAwaiter().GetResult();
 
     return new CosmosClient(connectionStr.First().Value, new CosmosClientOptions
     {
@@ -29,11 +29,11 @@ builder.Services.AddSingleton(async x =>
 
 });
 
-builder.Services.AddSingleton(async x =>
+builder.Services.AddSingleton(x =>
 {
     var configurationKeyList = new List<string>() { "reviewDatabaseID", "reviewCollectionId" };
     var daprClient = x.GetRequiredService<DaprClient>();
-    var configurationList = await daprClient.GetConfiguration("configstore", configurationKeyList);
+    var configurationList = daprClient.GetConfiguration("configstore", configurationKeyList).GetAwaiter().GetResult();
     return new DatabaseOption()
     {
         CollectionName = configurationList.Items["reviewCollectionId"].Value,
