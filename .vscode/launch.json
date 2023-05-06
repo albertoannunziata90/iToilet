@@ -22,7 +22,8 @@
             "stopAtEntry": false,
             "serverReadyAction": {
                 "action": "openExternally",
-                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)",
+                "uriFormat": "%s/swagger/index.html"
             },
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development"
@@ -46,6 +47,7 @@
             "serverReadyAction": {
                 "action": "openExternally",
                 "pattern": "\\bNow listening on:\\s+(https?://\\S+)",
+                "uriFormat": "%s/swagger/index.html"
             },
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development"
@@ -66,7 +68,8 @@
             "stopAtEntry": false,
             "serverReadyAction": {
                 "action": "openExternally",
-                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)",
+                "uriFormat": "%s/swagger/index.html"
             },
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development"
@@ -83,13 +86,14 @@
             "program": "${workspaceFolder}/review-api/ReviewApi/bin/Debug/net6.0/ReviewApi.dll",
             "args": [
                 "--urls",
-                "http://localhost:7601"
+                "http://localhost:7601",
             ],
             "cwd": "${workspaceFolder}",
             "stopAtEntry": false,
             "serverReadyAction": {
                 "action": "openExternally",
-                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)",
+                "uriFormat": "%s/swagger/index.html"
             },
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development"
@@ -110,7 +114,8 @@
             "stopAtEntry": false,
             "serverReadyAction": {
                 "action": "openExternally",
-                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)",
+                "uriFormat": "%s/swagger/index.html"
             },
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development"
@@ -133,7 +138,8 @@
             "stopAtEntry": false,
             "serverReadyAction": {
                 "action": "openExternally",
-                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)",
+                "uriFormat": "%s/swagger/index.html"
             },
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development"

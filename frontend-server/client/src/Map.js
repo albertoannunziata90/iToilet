@@ -1,16 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { AuthenticationType } from "azure-maps-control";
 import * as atlas from "azure-maps-control";
 
 const DefaultMap = () => {
-  let map = undefined;
-  useState(map);
+  const mapRef = useRef(null);
 
   const setMap = () => {
-    if (map) return;
-
-    map = new atlas.Map("my-map", {
-      zoom: 12,
+    const map = new atlas.Map(mapRef.current, {
+      view: "Auto",
       authOptions: {
         authType: AuthenticationType.subscriptionKey,
         subscriptionKey: "yzCRJl7GWWk-myKjg13tAr5D7idS9w-iSor_B2YK6PE",
@@ -32,7 +29,8 @@ const DefaultMap = () => {
         response.json().then((data) => {
           data.forEach((toilet) => {
             var marker = new atlas.HtmlMarker({
-              htmlContent: "<div><img scr='/iToilet.png'></div>",
+              htmlContent:
+                "<div><img src='/iToilet.png' width='30' height='30'></div>",
               position: [
                 toilet.point.position.longitude,
                 toilet.point.position.latitude,
@@ -40,6 +38,7 @@ const DefaultMap = () => {
               text: toilet.name,
               pixelOffset: [6, -15],
             });
+
             map.markers.add(marker);
           });
         });
@@ -47,11 +46,11 @@ const DefaultMap = () => {
     });
   };
 
-  useEffect(setMap, [map]);
+  useEffect(setMap, []);
 
   return (
-    <div>
-      <div id="my-map" style={{ height: "500px" }}></div>
+    <div class="container">
+      <div ref={mapRef} style={{ height: "500px" }}></div>
     </div>
   );
 };

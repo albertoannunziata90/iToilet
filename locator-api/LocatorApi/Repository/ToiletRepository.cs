@@ -9,7 +9,7 @@ namespace LocatorApi.Repository
     public class ToiletRepository : IToiletRepository
     {
         private readonly Container container;
-        private const int Distance = 1000;
+        private const int Distance = 5000;
 
         public ToiletRepository(CosmosClient cosmosClient, DatabaseOption option)
         {

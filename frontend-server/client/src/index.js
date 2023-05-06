@@ -5,17 +5,47 @@ import ReviewPage from "./ReviewPage";
 import ToiletsNearYou from "./toiletsNearYou";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
+import "bulma/css/bulma.min.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<ToiletsNearYou />}></Route>
-        <Route path="/about/*" element={<ReviewPage />}></Route>
-      </Routes>
-    </BrowserRouter>
-  </React.StrictMode>
+  <div>
+    <div>
+      <nav class="navbar" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+          <a class="navbar-item" href="/">
+            <img src="/logo.png" width="112" height="40" alt="itoilet logo" />
+          </a>
+
+          <a
+            role="button"
+            class="navbar-burger"
+            aria-label="menu"
+            aria-expanded="false"
+            data-target="navbarBasicExample"
+          >
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </a>
+        </div>
+        <div id="navbarBasicExample" class="navbar-menu">
+          <a class="navbar-item" href="/review">
+            Review
+          </a>
+        </div>
+      </nav>
+
+      <React.StrictMode>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<ToiletsNearYou />}></Route>
+            <Route path="/review/*" element={<ReviewPage />}></Route>
+          </Routes>
+        </BrowserRouter>
+      </React.StrictMode>
+    </div>
+  </div>
 );
 
 // If you want to start measuring performance in your app, pass a function

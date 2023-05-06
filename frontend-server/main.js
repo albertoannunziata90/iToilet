@@ -60,5 +60,10 @@ app.get("/", function (req, res) {
   res.sendFile(path.join(__dirname, "client/build", "index.html"));
 });
 
+app.get("/review", function (req, res) {
+  console.log(req);
+  res.sendFile(path.join(__dirname, "client/build", "index.html"));
+});
+
 console.log("Node  App Started");
 export default app;
