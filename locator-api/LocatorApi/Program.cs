@@ -11,10 +11,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddDaprClient();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSwaggerGen();
-builder.Services.AddSingleton(x =>
+builder.Services.AddSingleton(async x =>
 {
     var daprClient = x.GetRequiredService<DaprClient>();
-    var connectionStr = daprClient.GetSecretAsync("commonsecrets", "Cosmos-ConnectionString").GetAwaiter().GetResult();
+    var connectionStr = await daprClient.GetSecretAsync("commonsecrets", "Cosmos-ConnectionString");
     return new CosmosClient(connectionStr.First().Value, new CosmosClientOptions
     {
         SerializerOptions = new CosmosSerializationOptions()
@@ -23,11 +23,11 @@ builder.Services.AddSingleton(x =>
         }
     });
 });
-builder.Services.AddSingleton(x =>
+builder.Services.AddSingleton(async x =>
 {
     var configurationKeyList = new List<string>() { "locatorDatabaseId", "locatorCollectionId" };
     var daprClient = x.GetRequiredService<DaprClient>();
-    var configurationList = daprClient.GetConfiguration("configstore", configurationKeyList).GetAwaiter().GetResult();
+    var configurationList = await daprClient.GetConfiguration("configstore", configurationKeyList);
     return new DatabaseOption()
     {
         CollectionName = configurationList.Items["locatorCollectionId"].Value,
